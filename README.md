@@ -13,5 +13,5 @@ Learning outcomes:
 ○ Extent Reporting is a Customized HTML reports provides a Graphical UI of the test results such as pie chart representation, test stepwise report generation, adding screenshots etc. 
 ○ Excel Data Reader suport to run a test case multiple times with different input and validation values.
 ○ AutoIT can be used in window control manipulation to automate a task which is not possible by selenium webdriver.
-○ Docker can be used as an application as a container to run the solution locally.
+○ Docker: Run Project Mars Containers using Docker for Test Environment, able to run the application solution locally and independantly. 
 
