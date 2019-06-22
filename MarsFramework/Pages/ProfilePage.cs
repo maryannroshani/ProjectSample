@@ -30,7 +30,7 @@ namespace MarsFramework
 
         //Click on Availability Time option
         private IWebElement AvailabilityTimeOpt => driver.FindElement(By.XPath("//select[@name='availabiltyType']"));
-    
+
         //Click on Availability Hour dropdown
         private IWebElement AvailabilityHours => driver.FindElement(By.XPath("//div[@class='item']//strong[contains(text(),'Hours')]//..//..//i[contains(@class,'write icon')]"));
 
@@ -52,21 +52,21 @@ namespace MarsFramework
 
         internal void ClickProfile()
         {
-            Thread.Sleep(1000);
 
+            GlobalDefinitions.WaitForElement(driver, By.XPath("//section//a[contains(text(),'Profile')]"), 10);
             //Click on Edit button
             ProfileEdit.Click();
         }
 
 
-        internal void SetAvailableTime(string AvailableTime) {
+        internal void SetAvailableTime(string AvailableTime)
+        {
 
             //Test Case 1: To check if user can set the Available Time
             this.AvailabilityTime.Click();
-            Actions action = new Actions(driver);
-            action.MoveToElement(AvailabilityTimeOpt).Build().Perform();
+            AvailabilityTimeOpt.Click();
 
-            IList<IWebElement> AvailabilityTime = AvailabilityTimeOpt.FindElements(By.XPath("//select[@name='availabiltyType']//option"));
+            IList<IWebElement> AvailabilityTime = AvailabilityTimeOpt.FindElements(By.XPath("//select[@name='availabiltyType']//option[not(@hidden)]"));
             int count = AvailabilityTime.Count;
             for (int i = 0; i < count; i++)
             {
@@ -78,50 +78,48 @@ namespace MarsFramework
             }
         }
 
-            internal string GetAvailableTime() {
+        internal string GetAvailableTime()
+        {
 
-            //Test Case 1: To check if user can assert Available Time
+            //Test Case 2: To check if user can assert Available Time
 
             //Click on Availability Time option
-             IWebElement AvailabilityUpdate = driver.FindElement(By.XPath("//span[contains(text(),'Full Time')]/../.."));
-
-             return AvailabilityUpdate.Text;
+            IWebElement AvailabilityUpdate = driver.FindElement(By.XPath("//span[contains(text(),'Full Time')]/../.."));
+            return AvailabilityUpdate.Text;
         }
 
 
-        internal void EditProfile()
+        internal void SetHours(string Hours, string PopMessage)
         {
 
-        
+            //Test Case 3: To check if user can select the Hours option
 
-        //Test Case 2: To check if user can select the Available Hours option
+            //Click Availability dropbox
+            AvailabilityHours.Click();
 
-        //Click Availability dropbox
-        AvailabilityHours.Click();
-
-         //Click on Availability Hour Options
+            //Click on Availability Hour Options
             GlobalDefinitions.waitUntilElementClickable(GlobalDefinitions.driver, 5, "//select[@name='availabiltyHour']", "XPath");
             IWebElement HoursDropBox = GlobalDefinitions.driver.FindElement(By.XPath("//select[@name='availabiltyHour']"));
             HoursDropBox.Click();
 
-         //Click on Availability Hour Options
+            //Click on Availability Hour Options
             IWebElement HoursOptions = GlobalDefinitions.driver.FindElement(By.XPath("//select[@name='availabiltyHour']//option"));
 
-            switch (GlobalDefinitions.ExcelLib.ReadData(3, "Hours"))
+            switch (Hours)
             {
 
                 case "As needed":
                     HoursOptions.Click();
                     break;
 
-                   
+
                 case "Less than 30hours a week":
                     HoursOptions.Click();
                     break;
             }
             try
             {
-                IWebElement updatedMessage = GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), \"" + GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message") + "\")]"));
+                IWebElement updatedMessage = GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), \"" + PopMessage + "\")]"));
                 Assert.AreEqual(GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message"), updatedMessage.Text);
                 Base.test.Log(LogStatus.Pass, "Available Hours option is updated, Test Passed");
             }
@@ -130,8 +128,15 @@ namespace MarsFramework
             {
                 Base.test.Log(LogStatus.Fail, "Available Hours option is not Selected, Test Failed");
             }
+        }
 
 
+            internal string SetHours()
+            {
+           
+            }
+
+        internal void EditProfile() { 
             //Test Case 3: To check "Language"functionality in Profile Page 
 
             //Wait
@@ -155,11 +160,11 @@ namespace MarsFramework
 
             }
             AddLang.Click();
-            GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'English has been added to your languages')]"), 3);            
+            GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'English has been added to your languages')]"), 3);
             IWebElement PopupMessage = GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), \"" + GlobalDefinitions.ExcelLib.ReadData(2, "Language") + "" + GlobalDefinitions.ExcelLib.ReadData(5, "Popup Message") + "\")]"));
             if (PopupMessage.Text == "English has been added to your languages")
             {
-                
+
                 Base.test.Log(LogStatus.Pass, "Test Passed");
             }
             else

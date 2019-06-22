@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarsFramework
@@ -44,14 +45,7 @@ namespace MarsFramework
 
                 string AvailableTime = GlobalDefinitions.ExcelLib.ReadData(2, "AvailableTime");
                 profile.SetAvailableTime(AvailableTime);
-                if (AvailableTime.Equals(profile.GetAvailableTime()))
-                {
-                    Assert.Pass();
-                }
-                else
-                {
-                    Assert.Fail();
-                }
+                StringAssert.Contains(AvailableTime, profile.GetAvailableTime());
 
             }
 
