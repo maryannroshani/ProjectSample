@@ -99,6 +99,10 @@ namespace MarsFramework.Global
                     break;
             }
 
+            if (!string.IsNullOrEmpty(TestContext.CurrentContext.Result.Message)) {
+                test.Log(logstatus, TestContext.CurrentContext.Result.Message);
+            }
+
             test.Log(logstatus, "Test ended with " + logstatus + stacktrace);
 
             extent.EndTest(test);

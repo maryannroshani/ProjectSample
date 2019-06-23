@@ -11,14 +11,8 @@ using System.Threading;
 
 namespace MarsFramework
 {
-    internal class ProfilePage
+    internal class ProfilePage : BasePage
     {
-        private IWebDriver driver;
-
-        public ProfilePage()
-        {
-            this.driver = Global.GlobalDefinitions.Driver;
-        }
 
         #region  Initialize Web Elements 
 
@@ -48,11 +42,14 @@ namespace MarsFramework
 
         //Add Language      
         private IWebElement AddLang => driver.FindElement(By.XPath("//input[@class='ui teal button']"));
+
+        //ShareSkill Tab
+        private IWebElement ShareSkillBtn => driver.FindElement(By.XPath("//a[contains(text(),'Share Skill')]"));
+
         #endregion
 
         internal void ClickProfile()
         {
-
             GlobalDefinitions.WaitForElement(driver, By.XPath("//section//a[contains(text(),'Profile')]"), 10);
             //Click on Edit button
             ProfileEdit.Click();
@@ -80,7 +77,6 @@ namespace MarsFramework
 
         internal string GetAvailableTime()
         {
-
             //To assert Available Time
 
             //Click on Availability Time option
@@ -91,7 +87,6 @@ namespace MarsFramework
 
         internal void SetHours(string Hours)
         {
-
             //Test Case 2: To check if user can set Hours 
 
             //Click Availability Edit box
@@ -122,8 +117,7 @@ namespace MarsFramework
             return updatedMessage.Text;
         }
 
-        internal string GetPopMessage()
-
+        internal string GetPopMessageContent()
         {
             //To check pop up message 
             GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(@class,'ns-box')]"), 5);
@@ -133,7 +127,6 @@ namespace MarsFramework
 
         internal void AddLanguage(string Languages, string Level)
         {
-
             //Test Case 3: To check if user can add a "Language"
 
             //Wait
@@ -142,6 +135,7 @@ namespace MarsFramework
             //Click on Profile tab 
             ProfileEdit.Click();
             AddNewLangBtn.Click();
+            GlobalDefinitions.WaitForElement(driver, By.XPath("//input[@placeholder='Add Language']"), 10);
             AddLangText.SendKeys(Languages);
             ChooseLang.Click();
             IList<IWebElement> LanguagesLevel = ChooseLangOpt.FindElements(By.XPath("//select[@name='level']//option[@value]"));
@@ -158,11 +152,12 @@ namespace MarsFramework
             AddLang.Click();
         }
 
-        internal string verifyAddedLang(string Languages, string PopMessage)
+        internal void ClickShareSkill()
         {
-            GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'English has been added to your languages')]"), 3);
-            IWebElement PopupMessage = GlobalDefinitions.Driver.FindElement(By.XPath("//div[contains(text(), \"" + Languages + "" + PopMessage + "\")]"));
-            return PopupMessage.Text;
+            //To check if user is able to click ShareSkill
+            ShareSkillBtn.Click();
         }
+
+
     }
 }

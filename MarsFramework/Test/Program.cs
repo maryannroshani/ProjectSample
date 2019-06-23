@@ -32,7 +32,7 @@ namespace MarsFramework
             }
 
             [Test]
-            public void TC_001_02_SetAvailabilityTime()
+            public void TC_001_02_SetAvailability()
             {
                 // Creates a toggle for the given test
                 test = extent.StartTest("Set Availability Time Test");
@@ -64,7 +64,7 @@ namespace MarsFramework
                 string Hours = GlobalDefinitions.ExcelLib.ReadData(3, "Hours");              
                 profile.SetHours(Hours);
                 string PopMessage = GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message");                
-                StringAssert.Contains(PopMessage, profile.GetPopMessage());
+                StringAssert.Contains(PopMessage, profile.GetPopMessageContent());
                 Assert.AreEqual(Hours, profile.GetHours());
             }
 
@@ -75,33 +75,63 @@ namespace MarsFramework
                 test = extent.StartTest("Add Languages Test");
 
                 //Populate the Excel Sheet
-                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Profile");
-
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Languages");
+                
                 // Create an class and object to call the method
                 ProfilePage profile = new ProfilePage();
 
-                string Languages = GlobalDefinitions.ExcelLib.ReadData(2, "Language");
-                string Level = GlobalDefinitions.ExcelLib.ReadData(2, "Level");
-                profile.AddLanguage(Languages, Level);
-                string PopMessage = GlobalDefinitions.ExcelLib.ReadData(5, "Popup Message");
-                StringAssert.Contains(PopMessage, profile.verifyAddedLang(Languages, PopMessage));
+                for (int i = 2; i <= 5; i++)
+                {
+                    string Language = GlobalDefinitions.ExcelLib.ReadData(i, "Language");
+                    string Level = GlobalDefinitions.ExcelLib.ReadData(i, "Level");
+                    profile.AddLanguage(Language, Level);
+
+                    string SuccessMsg = GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message");
+                    StringAssert.Contains(Language + SuccessMsg, profile.GetPopMessageContent());
+                }
             }
-
-
         }
+
         [TestFixture]
         class ServiceList : MarsFramework.Global.Base
         {
             [Test]
-            public void TC_002_01_AddServiceSkill()
+            public void TC_002_01_ClickShareSkill()
             {
                 // Creates a toggle for the given test
-                test = extent.StartTest("List a Service Skill");
+                test = extent.StartTest("Go to ShareSkill Page Test");
+
+                // Create an class and object to call the method
+                ProfilePage profile = new ProfilePage();
+                profile.ClickShareSkill();
+                string ExpectedTitle = "ServiceListing";
+                Assert.AreEqual(ExpectedTitle, profile.GetPageTitle());                   
+            }
+
+            [Test]
+            public void TC_002_02_SelectCategory()
+            {
+                // Creates a toggle for the given test
+                test = extent.StartTest("Click SubCategory");
+
+                //Click ShareSkill Button 
+                ProfilePage profile = new ProfilePage();
+                profile.ClickShareSkill();
+
+                //Populate the Excel Sheet
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
+
 
                 // Create an class and object to call the method
                 ServiceListingPage service = new ServiceListingPage();
-            }
+                string MainCat = GlobalDefinitions.ExcelLib.ReadData(2, "Category");
+                service.SelectMainCategory(MainCat);
+                Assert.AreEqual(MainCat, service.GetMainCategory());
 
+                string SubCat = GlobalDefinitions.ExcelLib.ReadData(2, "Subcategory");
+                service.SelectSubCategory(SubCat);
+                Assert.AreEqual(SubCat, service.GetSubCategory());
+            }
         }
 
 
