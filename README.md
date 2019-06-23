@@ -4,11 +4,10 @@ Here is a code snippet/sample of a project that I was Involved.
 Project Overview
 Project Mars - SkillSwap - Project Mars is a cloud-based social-media platform that allows users to trade skills with each other. I contributed as a Test Analyst in both Manual and Automation Testing. 
 
-Technologies Used: 
-.NET core - 
-Selenium Webdriver - Framework: POM and Nunit - Reporting: Extent Reports - Data Driven Testing: Excel Reader - AutoIT - Docker
 
-Learning outcomes: 
+Technologies Used and Learning outcomes: 
+
+○ .NET core in Visual Studio 2019 along with Selenium Webdriver
 
 ○ Utilized Page Object Model (POM) to reduce duplicate test code, resue of code and Improves readability and better Test Scripts.
 
