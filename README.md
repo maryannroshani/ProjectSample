@@ -17,6 +17,12 @@ Learning outcomes:
 ○ Docker: Run Project Mars Containers using Docker Compose for Test Environment, able to run the application solution locally and independantly. 
 
 Acheivement:
+
 I was able to improve the existing project framework. 
- ☻ The existing framework had code for every test case to generate HTML Extent Reporting which I belived it was repetition of code and not a good practice. I included the Extent reporting code in the TearDown Scenario, where it exectutes the postconditions of the test case at the end of each test in the TearDown method and flushing the report. 
- ☻ The existing framework has Screen capture/Screenshots in both pass/fail test execution. I'd prefer to capture screenshot only if a test step fails as the images will consume more memory if captured on every test step.
+
+ ☻ The existing framework with Nunit had code for every test case to generate HTML Extent Reporting which I belived it was repetition of code and not a good practice. I included the Extent reporting code in the TearDown Scenario, where it manages automatic failure messages so you only have to create your tests as you normally do. If an assert causes a failure, it will be caught and reported to Extent here. http://extentreports.com/docs/versions/2/net/ 
+	
+☻ The existing framework had Screen capture/Screenshot in both pass/fail test execution. I'd prefer to capture screenshot only if a test step fails as the images will consume more memory if captured on every test step.
+
+☻ The existing framework had Excel data reading in Page Object Classes, I belive Test Reports and Data should be in the Test Controller/Classes, Pages only know how to set and retrieve data from the web page and also verify certain things, But has no clue what data it needs to enter to the page. Test class knows what data and when it needs to send to the page in order to test something. The test classes themselves pull this test data and pass it into the Page Objects (when needed), or the Page Object methods for validation purposes.So basically Test class knows how to test. Page class knows only how to enter data or read data from a particular web page as instructed or passed by the test class. 
+
