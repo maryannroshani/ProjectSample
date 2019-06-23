@@ -18,7 +18,7 @@ namespace MarsFramework.Pages
 
         public ServiceListingPage()
         {
-            this.driver = Global.GlobalDefinitions.driver;
+            this.driver = Global.GlobalDefinitions.Driver;
         }
 
         #region Initialize Web Elements
@@ -42,9 +42,9 @@ namespace MarsFramework.Pages
         internal void AddServiceSkill()
         {
             //Test case 1: To check if user is able to add a Subcategory for Skill service 
-            Actions action = new Actions(GlobalDefinitions.driver);
+            Actions action = new Actions(GlobalDefinitions.Driver);
             action.MoveToElement(SelectCategory).Build().Perform();
-            GlobalDefinitions.wait(1000);
+            GlobalDefinitions.Wait(1000);
 
             Boolean isFound = false;
 
@@ -63,7 +63,7 @@ namespace MarsFramework.Pages
             if (isFound)
             {
 
-                GlobalDefinitions.waitUntilElementClickable(driver, 1000, "//div[@class='listing']//select[@name='subcategoryId']", "XPath");
+                GlobalDefinitions.WaitUntilElementClickable(driver, 1000, "//div[@class='listing']//select[@name='subcategoryId']", "XPath");
                 SelectSubcategory.Click();
                 action.MoveToElement(SelectSubcategory).Build().Perform();
                 IList<IWebElement> subCategory = SubCategoryOpt.FindElements(By.XPath("//select[@name='subcategoryId']//option[@value]"));

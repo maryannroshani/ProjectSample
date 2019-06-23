@@ -16,14 +16,14 @@ namespace MarsFramework.Global
     class GlobalDefinitions
     {
         //Initialise the browser
-        public static IWebDriver driver { get; set; }
+        public static IWebDriver Driver { get; set; }
 
         #region Waits
         
         //wait method
-        public static void wait(int time)
+        public static void Wait(int time)
         {
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(time);
+            Driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(time);
 
         }
 
@@ -35,7 +35,7 @@ namespace MarsFramework.Global
         }
 
         //wait for an ElementToClickable 
-        public static void waitUntilElementClickable(IWebDriver driver, int timeSeconds, string locatorValue, string locatorType)
+        public static void WaitUntilElementClickable(IWebDriver driver, int timeSeconds, string locatorValue, string locatorType)
         {
             if (locatorType == "XPath")
             {
@@ -50,13 +50,13 @@ namespace MarsFramework.Global
         #region Excel 
         public class ExcelLib
         {
-            static List<Datacollection> dataCol = new List<Datacollection>();
+            static readonly List<Datacollection> dataCol = new List<Datacollection>();
 
             public class Datacollection
             {
-                public int rowNumber { get; set; }
-                public string colName { get; set; }
-                public string colValue { get; set; }
+                public int RowNumber { get; set; }
+                public string ColName { get; set; }
+                public string ColValue { get; set; }
             }
 
 
@@ -99,8 +99,8 @@ namespace MarsFramework.Global
 
                     rowNumber = rowNumber - 1;
                     string data = (from colData in dataCol
-                                   where colData.colName == columnName && colData.rowNumber == rowNumber
-                                   select colData.colValue).SingleOrDefault();
+                                   where colData.ColName == columnName && colData.RowNumber == rowNumber
+                                   select colData.ColValue).SingleOrDefault();
 
                     //var datas = dataCol.Where(x => x.colName == columnName && x.rowNumber == rowNumber).SingleOrDefault().colValue;
 
@@ -128,9 +128,9 @@ namespace MarsFramework.Global
                     {
                         Datacollection dtTable = new Datacollection()
                         {
-                            rowNumber = row,
-                            colName = table.Columns[col].ColumnName,
-                            colValue = table.Rows[row - 1][col].ToString()
+                            RowNumber = row,
+                            ColName = table.Columns[col].ColumnName,
+                            ColValue = table.Rows[row - 1][col].ToString()
                         };
 
 

@@ -16,7 +16,7 @@ namespace MarsFramework.Pages
 
         public SignIn()
         {
-            this.driver = Global.GlobalDefinitions.driver;
+            this.driver = Global.GlobalDefinitions.Driver;
         }
 
         #region  Initialize Web Elements 
@@ -46,7 +46,7 @@ namespace MarsFramework.Pages
             Global.GlobalDefinitions.ExcelLib.PopulateInCollection(Global.Base.ExcelPath, "SignIn");
 
             //Navigate to the Url
-            Global.GlobalDefinitions.driver.Navigate().GoToUrl(Global.GlobalDefinitions.ExcelLib.ReadData(2,"Url"));
+            Global.GlobalDefinitions.Driver.Navigate().GoToUrl(Global.GlobalDefinitions.ExcelLib.ReadData(2,"Url"));
 
             //Click on Sign In tab
             SignIntab.Click();
@@ -65,7 +65,7 @@ namespace MarsFramework.Pages
 
             GlobalDefinitions.WaitForElement(driver, By.XPath("//a[contains(text(),'Mars Logo')]"), 5);
 
-            string text = Global.GlobalDefinitions.driver.FindElement(By.XPath("//a[contains(text(),'Mars Logo')]")).Text;
+            string text = Global.GlobalDefinitions.Driver.FindElement(By.XPath("//a[contains(text(),'Mars Logo')]")).Text;
 
             if (text == "Mars Logo")
             {

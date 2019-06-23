@@ -15,7 +15,7 @@ namespace MarsFramework.Pages
 
         public ListingManagementPage()
             {
-            this.driver = Global.GlobalDefinitions.driver;
+            this.driver = Global.GlobalDefinitions.Driver;
             }
 
         #region Initialize WebElements
@@ -43,7 +43,7 @@ namespace MarsFramework.Pages
             GlobalDefinitions.WaitForElement(driver, By.XPath("//h2[contains(text(),'Manage Listings')]/..//table[@class='ui striped table']"), 10);
 
             bool shareSkillPresent = false;
-            IWebElement tableElement = GlobalDefinitions.driver.FindElement(By.XPath("//*[@class='ui striped table']"));
+            IWebElement tableElement = GlobalDefinitions.Driver.FindElement(By.XPath("//*[@class='ui striped table']"));
             IList<IWebElement> tableRow = tableElement.FindElements(By.TagName("tr"));
             foreach (IWebElement row in tableRow)
             {

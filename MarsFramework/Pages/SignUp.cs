@@ -15,7 +15,7 @@ namespace MarsFramework.Pages
 
         public SignUp()
         {
-            this.driver = Global.GlobalDefinitions.driver;
+            this.driver = Global.GlobalDefinitions.Driver;
         }
 
         #region  Initialize Web Elements 

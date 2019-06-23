@@ -17,7 +17,7 @@ namespace MarsFramework
 
         public ProfilePage()
         {
-            this.driver = Global.GlobalDefinitions.driver;
+            this.driver = Global.GlobalDefinitions.Driver;
         }
 
         #region  Initialize Web Elements 
@@ -81,7 +81,7 @@ namespace MarsFramework
         internal string GetAvailableTime()
         {
 
-            //Test Case 2: To check if user can assert Available Time
+            //To assert Available Time
 
             //Click on Availability Time option
             IWebElement AvailabilityUpdate = driver.FindElement(By.XPath("//span[contains(text(),'Full Time')]/../.."));
@@ -89,90 +89,80 @@ namespace MarsFramework
         }
 
 
-        internal void SetHours(string Hours, string PopMessage)
+        internal void SetHours(string Hours)
         {
 
-            //Test Case 3: To check if user can select the Hours option
+            //Test Case 2: To check if user can set Hours 
 
-            //Click Availability dropbox
+            //Click Availability Edit box
             AvailabilityHours.Click();
 
-            //Click on Availability Hour Options
-            GlobalDefinitions.waitUntilElementClickable(GlobalDefinitions.driver, 5, "//select[@name='availabiltyHour']", "XPath");
-            IWebElement HoursDropBox = GlobalDefinitions.driver.FindElement(By.XPath("//select[@name='availabiltyHour']"));
+            //Click on Availability Hour DropBox
+            GlobalDefinitions.WaitUntilElementClickable(GlobalDefinitions.Driver, 5, "//select[@name='availabiltyHour']", "XPath");
+            IWebElement HoursDropBox = GlobalDefinitions.Driver.FindElement(By.XPath("//select[@name='availabiltyHour']"));
             HoursDropBox.Click();
 
             //Click on Availability Hour Options
-            IWebElement HoursOptions = GlobalDefinitions.driver.FindElement(By.XPath("//select[@name='availabiltyHour']//option"));
-
-            switch (Hours)
+            IList<IWebElement> HoursOptions = HoursDropBox.FindElements(By.XPath("//select[@name='availabiltyHour']//option[not(@hidden)]"));
+            int count = HoursOptions.Count;
+            for (int i = 0; i < count; i++)
             {
-
-                case "As needed":
-                    HoursOptions.Click();
+                if (HoursOptions[i].Text == Hours)
+                {
+                    HoursOptions[i].Click();
                     break;
-
-
-                case "Less than 30hours a week":
-                    HoursOptions.Click();
-                    break;
-            }
-            try
-            {
-                IWebElement updatedMessage = GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), \"" + PopMessage + "\")]"));
-                Assert.AreEqual(GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message"), updatedMessage.Text);
-                Base.test.Log(LogStatus.Pass, "Available Hours option is updated, Test Passed");
-            }
-
-            catch (Exception)
-            {
-                Base.test.Log(LogStatus.Fail, "Available Hours option is not Selected, Test Failed");
+                }
             }
         }
 
+        internal string GetHours()
+        {
+            //To check if Hours is changed
+            IWebElement updatedMessage = GlobalDefinitions.Driver.FindElement(By.XPath("//strong[contains(text(),'Hours')]/../../div"));
+            return updatedMessage.Text;
+        }
 
-            internal string SetHours()
-            {
-           
-            }
+        internal string GetPopMessage()
 
-        internal void EditProfile() { 
-            //Test Case 3: To check "Language"functionality in Profile Page 
+        {
+            //To check pop up message 
+            GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(@class,'ns-box')]"), 5);
+            return driver.FindElement(By.XPath("//div[contains(@class,'ns-box')]")).Text;
+        }
+
+
+        internal void AddLanguage(string Languages, string Level)
+        {
+
+            //Test Case 3: To check if user can add a "Language"
 
             //Wait
-            GlobalDefinitions.WaitForElement(GlobalDefinitions.driver, By.XPath("//section//a[@class='item'][contains(text(),'Profile')]"), 10);
+            GlobalDefinitions.WaitForElement(GlobalDefinitions.Driver, By.XPath("//section//a[contains(text(),'Profile')]"), 10);
 
-            // Click on Profile tab 
+            //Click on Profile tab 
             ProfileEdit.Click();
             AddNewLangBtn.Click();
-            AddLangText.SendKeys(GlobalDefinitions.ExcelLib.ReadData(2, "Language"));
+            AddLangText.SendKeys(Languages);
             ChooseLang.Click();
             IList<IWebElement> LanguagesLevel = ChooseLangOpt.FindElements(By.XPath("//select[@name='level']//option[@value]"));
-            int countOne = LanguagesLevel.Count;
-            for (int i = 0; i < countOne; i++)
+            int count = LanguagesLevel.Count;
+            for (int i = 0; i < count; i++)
             {
-                if (LanguagesLevel[i].Text == GlobalDefinitions.ExcelLib.ReadData(2, "Level"))
+                if (LanguagesLevel[i].Text == Level)
                 {
                     LanguagesLevel[i].Click();
-                    Base.test.Log(LogStatus.Pass, "Language is added, Test Passed");
                     break;
                 }
 
             }
             AddLang.Click();
+        }
+
+        internal string verifyAddedLang(string Languages, string PopMessage)
+        {
             GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'English has been added to your languages')]"), 3);
-            IWebElement PopupMessage = GlobalDefinitions.driver.FindElement(By.XPath("//div[contains(text(), \"" + GlobalDefinitions.ExcelLib.ReadData(2, "Language") + "" + GlobalDefinitions.ExcelLib.ReadData(5, "Popup Message") + "\")]"));
-            if (PopupMessage.Text == "English has been added to your languages")
-            {
-
-                Base.test.Log(LogStatus.Pass, "Test Passed");
-            }
-            else
-            {
-                Base.test.Log(LogStatus.Fail, "Test Failed");
-            }
-
-
+            IWebElement PopupMessage = GlobalDefinitions.Driver.FindElement(By.XPath("//div[contains(text(), \"" + Languages + "" + PopMessage + "\")]"));
+            return PopupMessage.Text;
         }
     }
 }
