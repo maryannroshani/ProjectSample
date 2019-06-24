@@ -179,7 +179,7 @@ namespace MarsFramework
                 //verify page Title
                 BasePage page = new BasePage();
                 string ExpectedTitle = "ListingManagement";
-                Assert.AreEqual(ExpectedTitle, page.GetPageTitle()); 
+                Assert.AreEqual(ExpectedTitle, page.GetPageTitle());
             }
 
             [Test]
@@ -208,7 +208,7 @@ namespace MarsFramework
             public void TC_003_03_DeleteServiceSkill()
             {
                 // Creates a toggle for the given test
-                test = extent.StartTest("Click Manage Listings Tab Test");
+                test = extent.StartTest("Delete a Service Skill Test");
 
                 //Populate the Excel Sheet
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
@@ -219,12 +219,15 @@ namespace MarsFramework
 
                 // Create an class and object to call the method
                 ListingManagementPage list = new ListingManagementPage();
+                ProfilePage profile = new ProfilePage();
 
                 string Title = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Title");
                 string Description = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Description");
+                String DeleteMessage = GlobalDefinitions.ExcelLib.ReadData(3, "Title");
+                list.DeleteServiceSkill(Title, Description, DeleteMessage);
+                StringAssert.Contains(DeleteMessage, profile.GetPopMessageContent());
             }
-
-            }
+        }
     }
 }
 

@@ -39,36 +39,28 @@ namespace MarsFramework.Pages
             return shareSkillPresent;
         }
 
-        internal void DeleteServiceSkill()
+        internal void DeleteServiceSkill(string Title, string Description, string DeleteMessage)
         {
             //Test Case 19: To check if user is able to "Remove" the Added 'Service Skill" 
             GlobalDefinitions.WaitForElement(driver, By.XPath("//h2[contains(text(),'Manage Listings')]/..//table[@class='ui striped table']"), 10);
-            DeleteService();
+            DeleteService(Title, Description, DeleteMessage);
         }
 
 
         //Remove Method       
-        public void DeleteService()
+        public void DeleteService(string Title, string Description,string DeleteMessage)
         {
             IList<IWebElement> tableRows = TableBody.FindElements(By.TagName("tr"));
             foreach (IWebElement row in tableRows)
             {
-                if (row.Text.Contains(GlobalDefinitions.ExcelLib.ReadData(3, "Title")) && row.Text.Contains(GlobalDefinitions.ExcelLib.ReadData(3, "Description")))
+                if (row.Text.Contains(Title) && row.Text.Contains(Description))
                 {
-                    var deleteList = driver.FindElement(By.XPath("//td[text()='" + GlobalDefinitions.ExcelLib.ReadData(3, "Title") + "']/..//td/i[3]"));
+                    var deleteList = driver.FindElement(By.XPath("//td[text()='" + Title + "']/..//td/i[3]"));
                     deleteList.Click();
-                    RemoveConfirm.Click();
-
-                    String deleteMessage = GlobalDefinitions.ExcelLib.ReadData(3, "Title");
-                    GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'" + deleteMessage + " has been deleted')]"), 50);
-                    IWebElement deleteSuccess = driver.FindElement(By.XPath("//div[contains(text(),'" + deleteMessage + " has been deleted')]"));
-
-                    if (deleteSuccess.Text == deleteMessage + " has been deleted")
-                    {
-                        Base.test.Log(LogStatus.Pass, "Added Service is Removed Successfully. Test Passed");
-                    }
-                    break;
+                    RemoveConfirm.Click();                  
+                    GlobalDefinitions.WaitForElement(driver, By.XPath("//div[contains(text(),'" + DeleteMessage + " has been deleted')]"), 50);                    
                 }
+                break;
             }
         }
     }
