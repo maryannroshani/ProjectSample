@@ -3,25 +3,13 @@ using OpenQA.Selenium;
 using RelevantCodes.ExtentReports;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarsFramework.Pages
 {
-    internal class ListingManagementPage
+    internal class ListingManagementPage : BasePage
     {
-        private IWebDriver driver;
-
-        public ListingManagementPage()
-            {
-            this.driver = Global.GlobalDefinitions.Driver;
-            }
-
+ 
         #region Initialize WebElements
-
-        //Click on Manage Listings
-        private IWebElement ManageListing => driver.FindElement(By.XPath("//a[contains(text(),'Manage Listings')]"));
 
         //Get Table Row
         private IWebElement TableBody => driver.FindElement(By.XPath("//div[@id='listing-management-section']//table//tbody"));
@@ -30,15 +18,10 @@ namespace MarsFramework.Pages
         private IWebElement RemoveConfirm => driver.FindElement(By.XPath("//button[@class='ui icon positive right labeled button']"));
 
         #endregion
-        internal void ManageList()
+
+        
+        internal bool CheckListAdded(string Title, string Description)
         {
-            //Populate the Excel Sheet
-            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
-
-            //Click on "Manage Listings"
-            ManageListing.Click();
-
-
             //Test Case 17: To check if user is able to View "Listing table" upon clicking "Manage Listings"
             GlobalDefinitions.WaitForElement(driver, By.XPath("//h2[contains(text(),'Manage Listings')]/..//table[@class='ui striped table']"), 10);
 
@@ -47,32 +30,26 @@ namespace MarsFramework.Pages
             IList<IWebElement> tableRow = tableElement.FindElements(By.TagName("tr"));
             foreach (IWebElement row in tableRow)
             {
-                if (row.Text.Contains(Global.GlobalDefinitions.ExcelLib.ReadData(3, "Title")) && row.Text.Contains(Global.GlobalDefinitions.ExcelLib.ReadData(3, "Description")))
+                if (row.Text.Contains(Title) && row.Text.Contains(Description))
                 {
                     shareSkillPresent = true;
                     break;
                 }
             }
-            if (shareSkillPresent)
-            {
-                Base.test.Log(LogStatus.Pass, "Test Passed, Service Skill  is added Successfully");
-            }
-            else
-            {
-                Base.test.Log(LogStatus.Fail, "Test Failed, Service Skill is not added Successfully");
-            }
+            return shareSkillPresent;
+        }
 
-
-            //Test Case 19: To check if user is able to "Remove" the Added 'Service Skill" (Scenario:1)
+        internal void DeleteServiceSkill()
+        {
+            //Test Case 19: To check if user is able to "Remove" the Added 'Service Skill" 
             GlobalDefinitions.WaitForElement(driver, By.XPath("//h2[contains(text(),'Manage Listings')]/..//table[@class='ui striped table']"), 10);
             DeleteService();
-
         }
+
 
         //Remove Method       
         public void DeleteService()
         {
-
             IList<IWebElement> tableRows = TableBody.FindElements(By.TagName("tr"));
             foreach (IWebElement row in tableRows)
             {

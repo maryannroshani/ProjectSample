@@ -31,6 +31,7 @@ namespace MarsFramework
                 profile.ClickProfile();
             }
 
+
             [Test]
             public void TC_001_02_SetAvailability()
             {
@@ -46,8 +47,8 @@ namespace MarsFramework
                 string AvailableTime = GlobalDefinitions.ExcelLib.ReadData(2, "AvailableTime");
                 profile.SetAvailableTime(AvailableTime);
                 StringAssert.Contains(AvailableTime, profile.GetAvailableTime());
-
             }
+
 
             [Test]
             public void TC_001_03_SetHours()
@@ -61,22 +62,23 @@ namespace MarsFramework
                 // Create an class and object to call the method
                 ProfilePage profile = new ProfilePage();
 
-                string Hours = GlobalDefinitions.ExcelLib.ReadData(3, "Hours");              
+                string Hours = GlobalDefinitions.ExcelLib.ReadData(3, "Hours");
                 profile.SetHours(Hours);
-                string PopMessage = GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message");                
+                string PopMessage = GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message");
                 StringAssert.Contains(PopMessage, profile.GetPopMessageContent());
                 Assert.AreEqual(Hours, profile.GetHours());
             }
+
 
             [Test]
             public void TC_001_04_AddLanguages()
             {
                 // Creates a toggle for the given test
-                test = extent.StartTest("Add Languages Test");
+                test = extent.StartTest("Add multiple Languages Test");
 
                 //Populate the Excel Sheet
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "Languages");
-                
+
                 // Create an class and object to call the method
                 ProfilePage profile = new ProfilePage();
 
@@ -92,6 +94,7 @@ namespace MarsFramework
             }
         }
 
+
         [TestFixture]
         class ServiceList : MarsFramework.Global.Base
         {
@@ -105,14 +108,15 @@ namespace MarsFramework
                 ProfilePage profile = new ProfilePage();
                 profile.ClickShareSkill();
                 string ExpectedTitle = "ServiceListing";
-                Assert.AreEqual(ExpectedTitle, profile.GetPageTitle());                   
+                Assert.AreEqual(ExpectedTitle, profile.GetPageTitle());
             }
+
 
             [Test]
             public void TC_002_02_SelectCategory()
             {
                 // Creates a toggle for the given test
-                test = extent.StartTest("Click SubCategory");
+                test = extent.StartTest("Click Category Test");
 
                 //Click ShareSkill Button 
                 ProfilePage profile = new ProfilePage();
@@ -121,9 +125,9 @@ namespace MarsFramework
                 //Populate the Excel Sheet
                 GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
 
-
                 // Create an class and object to call the method
                 ServiceListingPage service = new ServiceListingPage();
+
                 string MainCat = GlobalDefinitions.ExcelLib.ReadData(2, "Category");
                 service.SelectMainCategory(MainCat);
                 Assert.AreEqual(MainCat, service.GetMainCategory());
@@ -132,6 +136,30 @@ namespace MarsFramework
                 service.SelectSubCategory(SubCat);
                 Assert.AreEqual(SubCat, service.GetSubCategory());
             }
+
+
+            [Test]
+            public void TC_002_03_UploadFile()
+            {
+                // Creates a toggle for the given test
+                test = extent.StartTest("Upload an Invalid File type Test");
+
+                //Click ShareSkill Button 
+                ProfilePage profile = new ProfilePage();
+                profile.ClickShareSkill();
+
+                //Populate the Excel Sheet
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
+
+                //Create an class and object to call the method
+                ServiceListingPage service = new ServiceListingPage();
+
+                string UploadFilePath = GlobalDefinitions.ExcelLib.ReadData(3, "Upload File Path");
+                service.UploadFile(UploadFilePath);
+
+                string FileErrorMessage = GlobalDefinitions.ExcelLib.ReadData(5, "Error Message Displays");
+                StringAssert.Contains(FileErrorMessage, profile.GetPopMessageContent());
+            }
         }
 
 
@@ -139,17 +167,64 @@ namespace MarsFramework
         class ManageList : Global.Base
         {
             [Test]
-            public void TC_003_01_ManageListings()
+            public void TC_003_01_ClickManageListingsTab()
             {
                 // Creates a toggle for the given test
-                test = extent.StartTest("Manage Service List");
+                test = extent.StartTest("Click Manage Listings Tab Test");
+
+                //Create an class and object to call the method
+                ServiceListingPage service = new ServiceListingPage();
+                service.ClickManageListingsTab();
+
+                //verify page Title
+                BasePage page = new BasePage();
+                string ExpectedTitle = "ListingManagement";
+                Assert.AreEqual(ExpectedTitle, page.GetPageTitle()); 
+            }
+
+            [Test]
+            public void TC_003_02_CheckListAdded()
+            {
+                // Creates a toggle for the given test
+                test = extent.StartTest("Click Manage Listings Tab Test");
+
+                //Populate the Excel Sheet
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
+
+                //Create an class and object to call the method
+                ServiceListingPage service = new ServiceListingPage();
+                service.ClickManageListingsTab();
 
                 // Create an class and object to call the method
-                ListingManagementPage lists = new ListingManagementPage();
-                lists.ManageList();
-            }
-        }
+                ListingManagementPage list = new ListingManagementPage();
 
+                string Title = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Title");
+                string Description = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Description");
+                list.CheckListAdded(Title, Description);
+                Assert.True(list.CheckListAdded(Title, Description), "Title and Description cannot be Found");
+            }
+
+            [Test]
+            public void TC_003_03_DeleteServiceSkill()
+            {
+                // Creates a toggle for the given test
+                test = extent.StartTest("Click Manage Listings Tab Test");
+
+                //Populate the Excel Sheet
+                GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
+
+                //Create an class and object to call the method
+                ServiceListingPage service = new ServiceListingPage();
+                service.ClickManageListingsTab();
+
+                // Create an class and object to call the method
+                ListingManagementPage list = new ListingManagementPage();
+
+                string Title = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Title");
+                string Description = Global.GlobalDefinitions.ExcelLib.ReadData(3, "Description");
+            }
+
+            }
     }
 }
 

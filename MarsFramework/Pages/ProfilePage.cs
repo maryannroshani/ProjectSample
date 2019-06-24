@@ -157,7 +157,5 @@ namespace MarsFramework
             //To check if user is able to click ShareSkill
             ShareSkillBtn.Click();
         }
-
-
     }
 }
