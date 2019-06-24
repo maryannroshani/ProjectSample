@@ -1,4 +1,4 @@
-# ProjectSamples
+# ProjectSample
 Here is a code snippet/sample of a project that I was Involved.
 
 Project Overview
