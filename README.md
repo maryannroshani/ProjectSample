@@ -25,7 +25,7 @@ Acheivement:
 
 I was able to improve the existing project framework. 
 
-⦿ The existing framework with Nunit had code for every test case to generate HTML Extent Reporting which I belived it was repetition of code and not a good practice. I included the Extent reporting code in the TearDown Scenario, where it manages automatic failure messages so you only have to create your tests as you normally do. If an assert causes a failure, it will be caught and reported to Extent here. http://extentreports.com/docs/versions/2/net/ 
+⦿ The existing framework with Nunit had code for every test case to generate HTML Extent Reporting which I belived it was repetition of code and not a good practice. I included the Extent reporting code in the TearDown Scenario, where it manages automatic failure messages so you only have to create your tests as you normally do. If an assert causes a failure, it will be caught and reported to Extent here. Please click this link https://maryannroshani.github.io/TestReports/MarsReports.html for HTML Extent reproting. 
 	
 ⦿ The existing framework had Screen capture/Screenshot in both pass/fail test execution. It would be prefer to capture screenshot only if a test step fails as the images will consume more memory if captured on every test step.
 
