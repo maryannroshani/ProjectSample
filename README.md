@@ -24,9 +24,10 @@ Acheivement:
 
 I was able to improve the existing project framework. 
 
-⦿ The existing framework with Nunit had code for every test case to generate HTML Extent Reporting which I belived it was repetition of code and not a good practice. I included the Extent reporting code in the TearDown Scenario, where it manages automatic failure messages so you only have to create your tests as you normally do. If an assert causes a failure, it will be caught and reported to Extent here. Please click this link https://maryannroshani.github.io/TestReports/MarsReports.html for HTML Extent reproting. 
+⦿ In the existing framework, the code to generate HTML Extent Reporting was repeated in every test case  which I belive is a repetition of code and not a good practice in programming. I included the Extent reporting code in the TearDown Scenario, where it manages reporting for all test cases, so that you have to focus only on creating your tests as you normally do. 
+If an assert causes a failure, it will be caught and reported to Extent Reporting. Here is an example of the HTML Extent reprot.  https://maryannroshani.github.io/TestReports/MarsReports.html 
 	
-⦿ The existing framework had Screen capture/Screenshot in both pass/fail test execution. It would be prefer to capture screenshot only if a test step fails as the images will consume more memory if captured on every test step.
+⦿ In the existing framework, the code was written to capture Screenshot for both passed and failed test cases. I prefer to capture screenshot only if a test step fails as the images will consume more memory if captured on every test step. 
 
 ⦿ The existing framework had Excel data reading in Page Object Classes, I belive Test Reports and Data should be in the Test Controller/Classes, Pages only knows how to set and retrieve data from the web page and also verify certain things, But has no clue what data it needs to enter to the page. Test class knows what data and when it needs to send to the page in order to test something. The test classes themselves pull this test data and pass it into the Page Objects (when needed), or the Page Object methods for validation purposes.So basically Test class knows how to test. Page class knows only how to enter data or read data from a particular web page as instructed or passed by the test class. 
 
