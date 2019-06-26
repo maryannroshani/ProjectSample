@@ -73,10 +73,7 @@ namespace MarsFramework.Global
         [TearDown]
         public void TearDown()
         {
-            // Screenshot
-            String img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.Driver, "Report");
-            test.Log(LogStatus.Info, "Snapshot below: " + test.AddScreenCapture(img));
-
+            
             var status = TestContext.CurrentContext.Result.Outcome.Status;
             var stacktrace = string.IsNullOrEmpty(TestContext.CurrentContext.Result.StackTrace)
                                                                     ? ""
@@ -99,8 +96,15 @@ namespace MarsFramework.Global
                     break;
             }
 
+            if (logstatus == LogStatus.Fail)
+            {
+                // Screenshot
+                String img = SaveScreenShotClass.SaveScreenshot(GlobalDefinitions.Driver, "Report");
+                test.Log(LogStatus.Info, "Snapshot below: " + test.AddScreenCapture(img));
+            }
+
             if (!string.IsNullOrEmpty(TestContext.CurrentContext.Result.Message)) {
-                test.Log(logstatus, TestContext.CurrentContext.Result.Message);
+                test.Log(logstatus, TestContext.CurrentContext.Result.Message);               
             }
 
             test.Log(logstatus, "Test ended with " + logstatus + stacktrace);

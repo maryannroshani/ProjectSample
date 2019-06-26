@@ -64,7 +64,7 @@ namespace MarsFramework
 
                 string Hours = GlobalDefinitions.ExcelLib.ReadData(3, "Hours");
                 profile.SetHours(Hours);
-                string PopMessage = GlobalDefinitions.ExcelLib.ReadData(2, "Popup Message");
+                string PopMessage = GlobalDefinitions.ExcelLib.ReadData(3, "Popup Message");
                 StringAssert.Contains(PopMessage, profile.GetPopMessageContent());
                 Assert.AreEqual(Hours, profile.GetHours());
             }
@@ -178,7 +178,7 @@ namespace MarsFramework
 
                 //verify page Title
                 BasePage page = new BasePage();
-                string ExpectedTitle = "ListingManagement";
+                string ExpectedTitle = "ListingManagemen";
                 Assert.AreEqual(ExpectedTitle, page.GetPageTitle());
             }
 
