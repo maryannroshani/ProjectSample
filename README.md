@@ -1,6 +1,8 @@
 # ProjectSample
 Here is a code snippet/sample of a project that I was Involved.
 
+You can view this on here too : https://maryannroshani.github.io/ProjectSample/
+
 Project Overview
 Project Mars is a cloud-based social-media platform that allows users to trade skills with each other. I contributed as a Test Analyst in both Manual and Automation Testing. 
 
